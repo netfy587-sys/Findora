@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What's Actually Up There — a balcony sky log</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Literata:ital,opsz,wght@0,18..144,400;0,18..144,500;1,18..144,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --night:#10182a;
+    --night-deep:#0a0f1c;
+    --panel:#171f36;
+    --star:#f2ead6;
+    --star-soft:#a3aac4;
+    --gold:#d9a441;
+    --gold-soft:#8d723a;
+    --rule:#2a3350;
+  }
+
+  *{ box-sizing:border-box; }
+  @media (prefers-reduced-motion: reduce){ *{ animation:none !important; transition:none !important; } }
+  html{ scroll-behavior:smooth; }
+
+  body{
+    margin:0;
+    background:var(--night);
+    color:var(--star);
+    font-family:'Literata', Georgia, serif;
+    font-size:1.08rem;
+    line-height:1.75;
+    background-image:
+      radial-gradient(1.5px 1.5px at 8% 12%, rgba(242,234,214,0.35), transparent),
+      radial-gradient(1px 1px at 22% 30%, rgba(242,234,214,0.25), transparent),
+      radial-gradient(1.5px 1.5px at 38% 8%, rgba(242,234,214,0.3), transparent),
+      radial-gradient(1px 1px at 58% 22%, rgba(242,234,214,0.22), transparent),
+      radial-gradient(1.5px 1.5px at 74% 14%, rgba(242,234,214,0.3), transparent),
+      radial-gradient(1px 1px at 88% 28%, rgba(242,234,214,0.2), transparent),
+      radial-gradient(1.5px 1.5px at 15% 55%, rgba(242,234,214,0.18), transparent),
+      radial-gradient(1px 1px at 92% 62%, rgba(242,234,214,0.18), transparent);
+    background-repeat:no-repeat;
+    background-size:100% 900px;
+  }
+
+  ::selection{ background:#3a4468; color:var(--star); }
+  a{ color:var(--gold); }
+  a:focus-visible, button:focus-visible{ outline:2px solid var(--gold); outline-offset:3px; }
+
+  .disp{
+    font-family:'Cormorant Garamond', Georgia, serif;
+    font-weight:500;
+    color:var(--star);
+  }
+
+  .shell{ max-width:660px; margin:0 auto; padding:0 32px; }
+  .shell-wide{ max-width:900px; margin:0 auto; padding:0 32px; }
+
+  header.masthead{ border-bottom:1px solid var(--rule); padding:22px 0; }
+  header.masthead .row{
+    max-width:900px; margin:0 auto; padding:0 32px;
+    display:flex; justify-content:space-between; align-items:baseline;
+  }
+  header.masthead .wordmark{ font-family:'Cormorant Garamond', serif; font-size:1.3rem; letter-spacing:0.02em; }
+  header.masthead .meta{ font-size:0.82rem; color:var(--star-soft); font-style:italic; }
+
+  /* ---- hero ---- */
+  .hero{ padding:60px 0 4px; position:relative; }
+  .hero .kicker{ font-size:0.85rem; color:var(--gold); letter-spacing:0.04em; margin-bottom:14px; font-style:italic; }
+  .hero h1{
+    font-size:clamp(2.3rem, 5vw, 3.5rem);
+    line-height:1.1;
+    margin:0 0 22px;
+    max-width:16ch;
+    font-weight:500;
+  }
+  .hero .dek{ font-size:1.18rem; color:var(--star-soft); max-width:54ch; margin:0 0 6px; }
+
+  .hero-art{ margin:44px 0 6px; }
+  .hero-art svg{ display:block; width:100%; height:auto; }
+
+  article{ padding-top:40px; }
+  p{ margin:0 0 20px; color:var(--star); }
+  h2.disp{ font-size:1.9rem; margin:56px 0 18px; line-height:1.25; }
+  h3{ font-family:'Cormorant Garamond', serif; font-weight:500; font-size:1.25rem; margin:0 0 4px; color:var(--star); }
+
+  blockquote{
+    margin:40px 0;
+    padding-left:24px;
+    border-left:2px solid var(--gold-soft);
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    font-size:1.5rem;
+    line-height:1.4;
+    color:var(--star);
+    max-width:56ch;
+  }
+
+  /* ---- sky log entries ---- */
+  .sky-entry{
+    display:grid; grid-template-columns:84px 1fr;
+    gap:22px; padding:24px 0; border-top:1px solid var(--rule);
+    align-items:start;
+  }
+  .sky-entry:last-child{ border-bottom:1px solid var(--rule); }
+  .sky-entry .glyph{ width:84px; height:84px; }
+  .sky-entry .when{ font-family:'Cormorant Garamond', serif; font-size:0.78rem; letter-spacing:0.05em; color:var(--gold); text-transform:uppercase; display:block; margin-bottom:5px; }
+  .sky-entry h3{ margin-bottom:5px; }
+  .sky-entry p{ margin:0; color:var(--star-soft); font-size:0.99rem; }
+
+  /* ---- three moves ---- */
+  ol.moves{ list-style:none; counter-reset:mv; margin:24px 0 8px; padding:0; }
+  ol.moves li{
+    counter-increment:mv;
+    display:grid; grid-template-columns:46px 1fr; gap:16px;
+    padding:18px 0; border-top:1px solid var(--rule);
+  }
+  ol.moves li:last-child{ border-bottom:1px solid var(--rule); }
+  ol.moves li::before{
+    content:counter(mv);
+    font-family:'Cormorant Garamond', serif; font-weight:500; font-size:1.5rem; color:var(--gold);
+  }
+  ol.moves h3{ font-size:1.1rem; margin-bottom:4px; }
+  ol.moves p{ margin:0; color:var(--star-soft); font-size:0.98rem; }
+
+  ul.plain{ margin:18px 0 8px; padding-left:0; list-style:none; }
+  ul.plain li{ padding:12px 0; border-top:1px solid var(--rule); display:flex; gap:14px; color:var(--star-soft); }
+  ul.plain li:last-child{ border-bottom:1px solid var(--rule); }
+  ul.plain li .mark{ font-family:'Cormorant Garamond', serif; color:var(--gold); flex:0 0 auto; }
+  ul.plain li strong{ color:var(--star); font-weight:600; }
+
+  .closing{ background:var(--panel); margin-top:66px; padding:52px 0; }
+  .closing .shell-wide{ display:grid; grid-template-columns:1fr 260px; gap:44px; align-items:center; }
+  .closing h2{ margin-top:0; font-size:1.9rem; }
+  .closing p{ color:var(--star-soft); margin:0 0 14px; }
+  .closing svg{ display:block; width:100%; height:auto; }
+
+  footer{ padding:26px 0 60px; }
+  footer .row{ max-width:900px; margin:0 auto; padding:0 32px; }
+  footer p{ font-size:0.84rem; color:var(--star-soft); max-width:60ch; margin:0; }
+  footer .sig{ font-family:'Cormorant Garamond', serif; color:var(--star); margin-bottom:8px; font-size:1rem; font-style:italic; }
+
+  @keyframes settle{ from{ opacity:0; transform:translateY(6px);} to{ opacity:1; transform:translateY(0);} }
+  .hero{ animation:settle 0.7s ease-out; }
+
+  @media (max-width:760px){
+    .closing .shell-wide{ grid-template-columns:1fr; }
+    .closing svg{ max-width:240px; margin:0 auto; }
+    .sky-entry{ grid-template-columns:60px 1fr; }
+    .sky-entry .glyph{ width:60px; height:60px; }
+  }
+  @media (max-width:520px){
+    body{ font-size:1rem; }
+    .shell, .shell-wide{ padding:0 20px; }
+    header.masthead .row{ padding:0 20px; flex-direction:column; align-items:flex-start; gap:4px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="row">
+    <span class="wordmark">What's Actually Up There</span>
+    <span class="meta">a sky log kept from a city balcony</span>
+  </div>
+</header>
+
+<div class="shell">
+  <div class="hero">
+    <span class="kicker">no telescope required</span>
+    <h1 class="disp">The sky doesn't disappear in a city. It just gets harder to notice</h1>
+    <p class="dek">Streetlight and haze take out the faint stuff, but the moon, four planets, and a handful of bright constellations are still there most clear nights — visible from an ordinary balcony, to an ordinary pair of eyes, once they've had a few minutes to adjust.</p>
+  </div>
+</div>
+
+<div class="shell-wide hero-art">
+  <svg viewBox="0 0 1000 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Line illustration of the Big Dipper constellation above a city skyline, with the moon to one side">
+    <rect x="0" y="0" width="1000" height="340" fill="#171f36"/>
+    <g fill="#0a0f1c" stroke="#2a3350" stroke-width="1.5">
+      <rect x="40" y="220" width="60" height="100"/>
+      <rect x="110" y="180" width="50" height="140"/>
+      <rect x="170" y="240" width="70" height="80"/>
+      <rect x="250" y="195" width="46" height="125"/>
+      <rect x="850" y="205" width="55" height="115"/>
+      <rect x="915" y="235" width="45" height="85"/>
+    </g>
+    <circle cx="800" cy="90" r="46" fill="none" stroke="#d9a441" stroke-width="2"/>
+    <path d="M780 60 A46 46 0 0 0 780 120 A36 36 0 0 1 780 60 Z" fill="#d9a441" opacity="0.85"/>
+
+    <g fill="#f2ead6">
+      <circle cx="260" cy="70" r="3"/>
+      <circle cx="330" cy="55" r="2.6"/>
+      <circle cx="400" cy="75" r="3.2"/>
+      <circle cx="470" cy="60" r="2.4"/>
+      <circle cx="410" cy="120" r="2.8"/>
+      <circle cx="340" cy="130" r="2.4"/>
+      <circle cx="280" cy="115" r="2.2"/>
+    </g>
+    <g stroke="#8d723a" stroke-width="1.3" fill="none" opacity="0.8">
+      <path d="M260 70 L330 55 L400 75 L470 60"/>
+      <path d="M400 75 L410 120 L340 130 L280 115 L400 75"/>
+    </g>
+
+    <g fill="#f2ead6" opacity="0.6">
+      <circle cx="120" cy="90" r="1.6"/>
+      <circle cx="560" cy="50" r="1.6"/>
+      <circle cx="610" cy="110" r="1.4"/>
+      <circle cx="700" cy="45" r="1.6"/>
+      <circle cx="70" cy="140" r="1.4"/>
+      <circle cx="960" cy="120" r="1.4"/>
+    </g>
+  </svg>
+</div>
+
+<div class="shell">
+  <article>
+    <p>Ask most people what's visible from a city and the answer is usually "nothing" — the assumption being that streetlight has erased the sky entirely. It hasn't. What's gone is the faint stuff: the thousands of dim stars that make the sky look genuinely crowded from somewhere truly dark. What's left is smaller, but it's real — the moon in all its phases, several planets bright enough to punch through haze, and a handful of star patterns that were, not coincidentally, the ones ancient navigators relied on precisely because they're the easiest to see.</p>
+    <p>None of it needs a telescope. A telescope, if anything, is the wrong tool for a first look — too narrow a view, too much setup, too easy to get discouraged by. Everything below is visible to an unaided, dark-adapted eye from an ordinary balcony.</p>
+
+    <h2 class="disp">What's actually up there</h2>
+
+    <div class="sky-entry">
+      <svg class="glyph" viewBox="0 0 84 84"><circle cx="42" cy="42" r="26" fill="none" stroke="#d9a441" stroke-width="2"/><path d="M30 22 A26 26 0 0 0 30 62 A20 20 0 0 1 30 22 Z" fill="#d9a441" opacity="0.85"/></svg>
+      <div>
+        <span class="when">changes nightly</span>
+        <h3>The Moon</h3>
+        <p>The single easiest object to track, precisely because it changes fast enough to notice week to week. A few nights either side of full, its glare actually washes out fainter stars nearby — worth knowing before blaming the city for a quiet sky.</p>
+      </div>
+    </div>
+
+    <div class="sky-entry">
+      <svg class="glyph" viewBox="0 0 84 84"><circle cx="42" cy="42" r="8" fill="#f2ead6"/><g stroke="#f2ead6" stroke-width="1.2" opacity="0.6"><line x1="42" y1="14" x2="42" y2="24"/><line x1="42" y1="60" x2="42" y2="70"/><line x1="14" y1="42" x2="24" y2="42"/><line x1="60" y1="42" x2="70" y2="42"/></g></svg>
+      <div>
+        <span class="when">just after sunset or before sunrise</span>
+        <h3>Venus</h3>
+        <p>Brighter than every star in the sky, which is exactly how to tell it apart from one — a steady, non-twinkling point low on the horizon, usually the very first thing visible after sunset.</p>
+      </div>
+    </div>
+
+    <div class="sky-entry">
+      <svg class="glyph" viewBox="0 0 84 84">
+        <g fill="#f2ead6"><circle cx="30" cy="18" r="2.4"/><circle cx="52" cy="18" r="2.4"/><circle cx="42" cy="34" r="2.6"/><circle cx="28" cy="50" r="2.2"/><circle cx="42" cy="52" r="2.2"/><circle cx="56" cy="50" r="2.2"/><circle cx="42" cy="68" r="2.6"/></g>
+        <g stroke="#8d723a" stroke-width="1.3"><line x1="30" y1="18" x2="42" y2="34"/><line x1="52" y1="18" x2="42" y2="34"/><line x1="42" y1="34" x2="28" y2="50"/><line x1="42" y1="34" x2="42" y2="52"/><line x1="42" y1="34" x2="56" y2="50"/><line x1="42" y1="52" x2="42" y2="68"/></g>
+      </svg>
+      <div>
+        <span class="when">winter evenings</span>
+        <h3>Orion</h3>
+        <p>Three stars in a short, even row make up the belt — the single most recognisable pattern in the night sky, and usually visible even through fairly heavy light pollution once you know to look for that line.</p>
+      </div>
+    </div>
+
+    <div class="sky-entry">
+      <svg class="glyph" viewBox="0 0 84 84">
+        <g fill="#f2ead6"><circle cx="16" cy="30" r="2.2"/><circle cx="30" cy="24" r="2.2"/><circle cx="44" cy="28" r="2.4"/><circle cx="56" cy="20" r="2.2"/><circle cx="58" cy="40" r="2.2"/><circle cx="46" cy="46" r="2.2"/><circle cx="34" cy="42" r="2.2"/></g>
+        <g stroke="#8d723a" stroke-width="1.3"><path d="M16 30 L30 24 L44 28 L56 20 M44 28 L58 40 L46 46 L34 42 L44 28"/></g>
+      </svg>
+      <div>
+        <span class="when">year-round in the northern sky</span>
+        <h3>The Big Dipper</h3>
+        <p>Seven stars forming a long-handled ladle, part of the larger Ursa Major. It never fully sets from most northern latitudes, which makes it the most reliable fixed reference for finding true north on any clear night.</p>
+      </div>
+    </div>
+
+    <div class="sky-entry">
+      <svg class="glyph" viewBox="0 0 84 84"><circle cx="42" cy="42" r="3" fill="#d9a441"/><path d="M10 55 C30 40 55 40 74 30" fill="none" stroke="#d9a441" stroke-width="1.4" stroke-dasharray="2 5"/></svg>
+      <div>
+        <span class="when">a few passes a week, timed</span>
+        <h3>The ISS</h3>
+        <p>Not a star at all — a steady, fast-moving point crossing the whole sky in about five minutes, brighter than anything nearby. It only reflects sunlight after dark, so passes only happen in a short window around dusk and dawn, and they're predictable to the minute if you look up the schedule.</p>
+      </div>
+    </div>
+
+    <blockquote>Most people who say they've "never really seen the stars" have just never given their eyes the ten minutes it takes to actually adjust.</blockquote>
+
+    <h2 class="disp">Three things that help more than a telescope</h2>
+    <ol class="moves">
+      <li><div><h3>Give your eyes ten real minutes</h3><p>Full dark adaptation takes about twenty, but the first ten make most of the difference. Avoid checking your phone in that window — the screen resets the process almost completely.</p></div></li>
+      <li><div><h3>Find one fixed reference first</h3><p>The Big Dipper or Orion's belt, whichever is up. Everything else gets easier to locate once you have one pattern you can find without thinking.</p></div></li>
+      <li><div><h3>Check the moon phase before you plan</h3><p>A night near full moon will wash out almost everything faint. Planning around a new or crescent moon makes a surprising difference to what's visible.</p></div></li>
+    </ol>
+
+    <h2 class="disp">What light pollution actually changes</h2>
+    <p>The common assumption is that a city sky is simply "off" — nothing worth looking at. What light pollution actually removes is contrast: the faint, in-between stars that make a dark-sky view feel dense. The bright anchors — the moon, the visible planets, the handful of first-magnitude stars that form most recognisable constellations — are largely unaffected, because they were already bright enough to survive it.</p>
+
+    <ul class="plain">
+      <li><span class="mark">·</span><span><strong>Myth:</strong> you need to leave the city entirely to see anything. <strong>Reality:</strong> the brightest dozen or so objects are visible from most balconies on a clear night.</span></li>
+      <li><span class="mark">·</span><span><strong>Myth:</strong> a telescope is the natural next step. <strong>Reality:</strong> learning the sky with unaided eyes first makes a telescope far more useful later, not less.</span></li>
+      <li><span class="mark">·</span><span><strong>Myth:</strong> clouds ruin everything. <strong>Reality:</strong> a partly clear night often reveals the moon and brightest planets perfectly well, gaps and all.</span></li>
+    </ul>
+  </article>
+</div>
+
+<div class="closing">
+  <div class="shell-wide">
+    <div>
+      <h2 class="disp">A sky worth logging, not chasing</h2>
+      <p>None of this asks for a dark-sky reserve or a weekend trip. It asks for one clear night, ten patient minutes, and a willingness to look up at something you'd normally walk past without a glance.</p>
+      <p>Start with whatever's brightest tonight. Everything else in the sky tends to follow from there.</p>
+    </div>
+    <svg viewBox="0 0 240 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of a crescent moon among scattered stars">
+      <path d="M150 40 A80 80 0 1 0 150 220 A64 64 0 0 1 150 40 Z" fill="#d9a441" opacity="0.9"/>
+      <g fill="#f2ead6">
+        <circle cx="60" cy="60" r="2.4"/>
+        <circle cx="40" cy="120" r="2"/>
+        <circle cx="70" cy="180" r="2.2"/>
+        <circle cx="30" cy="200" r="1.8"/>
+        <circle cx="190" cy="200" r="2"/>
+        <circle cx="200" cy="70" r="1.8"/>
+      </g>
+    </svg>
+  </div>
+</div>
+
+<footer>
+  <div class="row">
+    <p class="sig">What's Actually Up There</p>
+    <p>Visibility depends on local light pollution, weather, and season, and shifts through the year — treat the notes above as a general starting point, not a fixed nightly guarantee.</p>
+  </div>
+</footer>
+
+</body>
+</html>
